@@ -1,0 +1,59 @@
+.user-selector {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+    margin-right: 0.5rem;
+}
+
+.user-selector lightning-combobox {
+    margin-left: 1rem;
+}
+
+.objective-button {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 2rem;
+}
+
+.slds-modal__container {
+    width: 90%;
+    max-width: 50rem;
+}
+
+.slds-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.slds-modal__header button {
+    margin-left: auto;
+}
+
+.slds-modal__content {
+    padding: 1rem;
+}
+
+.slds-modal__footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.slds-modal__footer lightning-button {
+    margin-left: 0.5rem;
+}
+
+.slds-m-around_medium {
+    margin: 1rem;
+}
+
+.slds-backdrop_open {
+    opacity: 0.5;
+}
+
+.objective-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: 0.5rem;
+}
