@@ -1,18 +1,17 @@
-# Salesforce DX Project: Next Steps
+OKR Dashboard
+ 
+OKR stands for Objectives and Key results. OKRs are goal-setting and leadership tool for communicating what you (as a salesman) want to accomplish and what milestones you'll need to meet in order to accomplish it.
+ 
+Your task is to build an OKR dashboard Lightning Web Component which helps with keeping track of users' progress towards their goals. 
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+For this assignment, please use a Developer Edition Salesforce org. If you don’t have it already, you can sign up for it here.
 
-## How Do You Plan to Deploy Your Changes?
-
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
-
-## Configure Your Salesforce DX Project
-
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-## Read All About It
-
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+Main features of OKR dashboard:
+ 
+Must have:
+•	Create objective and assign it to a user and specify objective year.
+•	Create key result and connect it to the objective.
+•	Set targets for key results and keep track of completed targets.
+•	Relate calls, events, opportunities, contracts, leads (only from web), surveys, reviews, google reviews, case studies to the key result. Some of those objects are not system objects, so custom objects need to be created.
+•	Create reviews, google reviews, case studies, surveys in OKR Dashboard and relate them to Key Result record selected by user.
+•	Specify and determine types of events/calls/contracts to measure against the target. Available Contract types must be specified as custom picklist field values (choose your own values).
