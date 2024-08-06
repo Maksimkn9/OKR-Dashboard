@@ -1,1 +1,0 @@
-OKR Dashboard Practical assigment due 2 weeks
