@@ -1,10 +1,26 @@
 public with sharing class TargetController {
+
+    private static Boolean hasIncremented = false;
+    private static Boolean hasDecremented = false;
+
     public static void incrementCurrentValue(String targetType, List<SObject> newRecords) {
-        processValueChange(targetType, newRecords, 1);
+        if (!hasIncremented) {
+            // Perform the increment operation
+            processValueChange(targetType, newRecords, 1);
+
+            // Set the flag to true to prevent further executions
+            hasIncremented = true;
+        }
     }
 
     public static void decreaseCurrentValue(String targetType, List<SObject> oldRecords) {
-        processValueChange(targetType, oldRecords, -1);
+        if (!hasDecremented) {
+            // Perform the decrement operation
+            processValueChange(targetType, oldRecords, -1);
+
+            // Set the flag to true to prevent further executions
+            hasDecremented = true;
+        }
     }
 
     private static void processValueChange(String targetType, List<SObject> records, Integer changeFactor) {
@@ -32,7 +48,7 @@ public with sharing class TargetController {
                 FROM Target__c 
                 WHERE KeyResult__c = :keyResultId 
                 AND Type__c = :targetType
-                AND Subtype__c = :type
+                AND (Subtype__c = :type OR Subtype__c = null)
             ];
 
             for (Target__c targetScore : targetScores) {
@@ -42,7 +58,8 @@ public with sharing class TargetController {
         }
 
         if (!targetScoresToUpdate.isEmpty()) {
-            update targetScoresToUpdate;
+                update targetScoresToUpdate;
+           
         }
     }
 
@@ -50,7 +67,7 @@ public with sharing class TargetController {
         switch on targetType {
             when 'Calls' {
                 Task taskRecord = (Task)record;
-                return taskRecord.WhatId != null ? [SELECT Id FROM KeyResult__c WHERE Id = :taskRecord.WhatId LIMIT 1].Id : null;
+                return taskRecord.KeyResult__c;
             }
             when 'Leads' {
                 Lead lead = (Lead)record;
@@ -58,7 +75,7 @@ public with sharing class TargetController {
             }
             when 'Events' {
                 Event eventRecord = (Event)record;
-                return eventRecord.WhatId != null ? [SELECT Id FROM KeyResult__c WHERE Id = :eventRecord.WhatId LIMIT 1].Id : null;
+                return eventRecord.KeyResult__c;
             }
             when 'Opportunities' {
                 return ((Opportunity)record).KeyResult__c;

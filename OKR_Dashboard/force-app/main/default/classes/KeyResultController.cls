@@ -47,7 +47,7 @@ public with sharing class KeyResultController {
                 CurrentValue__c = 0,
                 Name = 'Target for ' + target
             );
-            if (additionalOption != null) {
+            if (additionalOption != null && additionalOption != '') {
                 targetScoreRecord.Subtype__c = additionalOption;
             }
             targetScores.add(targetScoreRecord);

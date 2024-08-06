@@ -33,6 +33,11 @@ export default class Okrdashboard extends LightningElement {
         { label: 'Review', value: 'Review' },
         { label: 'Google Review', value: 'Google Review' },
         { label: 'Case Study', value: 'Case Study' },
+        { label: 'Call', value: 'Call' },
+        { label: 'Event', value: 'Event' },
+        { label: 'Lead', value: 'Lead' },
+        { label: 'Opportunity', value: 'Opportunity' },
+        { label: 'Contract', value: 'Contract' }
     ];
     @track selectedTargets = [];
     @track targetScore;
@@ -254,6 +259,13 @@ export default class Okrdashboard extends LightningElement {
     }
 
     handleSaveRelatedRecord() {
+
+        console.log('Attempting to save related record with data:', {
+            keyResultId: this.selectedKeyResultId,
+            recordName: this.relatedRecordName,
+            recordType: this.relatedRecordType
+        });
+
         createRelatedRecord({
             keyResultId: this.selectedKeyResultId,
             recordName: this.relatedRecordName,
@@ -265,7 +277,7 @@ export default class Okrdashboard extends LightningElement {
             this.relatedRecords = [...this.relatedRecords, result];
         })
         .catch(error => {
-            console.error(error);
+            console.error('Error creating related record:', error);
             this.showToast('Error', 'Error creating related record', 'error');
         });
     }
@@ -305,6 +317,14 @@ export default class Okrdashboard extends LightningElement {
     }
 
     handleSaveNewTarget() {
+
+        console.log('Attempting to save new target with data:', {
+            keyResultId: this.currentKeyResultId,
+            targets: this.selectedTargets,
+            targetScore: this.targetScore,
+            additionalOption: this.selectedAdditionalOption
+        });
+
         if (!this.selectedTargets.length || !this.targetScore) {
             this.showToast('Error', 'Please select at least one target and set a target value', 'error');
             return;
@@ -332,6 +352,7 @@ export default class Okrdashboard extends LightningElement {
             this.objectives = updatedObjectives;
         })
         .catch(error => {
+            console.error('Error saving target:', error);
             this.showToast('Error saving target', error.body.message, 'error');
         });
     }

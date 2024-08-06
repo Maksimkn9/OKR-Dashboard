@@ -1,7 +1,8 @@
-trigger LeadTrigger on Lead (after insert, after delete) {
+trigger LeadTrigger on Lead (after insert, after delete, after update) {
     List<Lead> webLeads = new List<Lead>();
+    List<Lead> oldWebLeads = new List<Lead>();
 
-    if (Trigger.isInsert) {
+    if (Trigger.isInsert || Trigger.isUpdate) {
         for (Lead l : Trigger.new) {
             if (l.LeadSource == 'Web') {
                 webLeads.add(l);
@@ -10,10 +11,7 @@ trigger LeadTrigger on Lead (after insert, after delete) {
         if (!webLeads.isEmpty()) {
             TargetController.incrementCurrentValue('Leads', webLeads);
         }
-    }
-
-    if (Trigger.isDelete) {
-        List<Lead> oldWebLeads = new List<Lead>();
+    } else if (Trigger.isDelete) {
         for (Lead l : Trigger.old) {
             if (l.LeadSource == 'Web') {
                 oldWebLeads.add(l);
@@ -21,6 +19,26 @@ trigger LeadTrigger on Lead (after insert, after delete) {
         }
         if (!oldWebLeads.isEmpty()) {
             TargetController.decreaseCurrentValue('Leads', oldWebLeads);
+        }
+    }
+
+    if (Trigger.isUpdate) {
+        for (Lead newLead : Trigger.new) {
+            Lead oldLead = Trigger.oldMap.get(newLead.Id);
+            if (newLead.LeadSource != oldLead.LeadSource) {
+                if (oldLead.LeadSource == 'Web') {
+                    oldWebLeads.add(oldLead);
+                }
+                if (newLead.LeadSource == 'Web') {
+                    webLeads.add(newLead);
+                }
+            }
+        }
+        if (!oldWebLeads.isEmpty()) {
+            TargetController.decreaseCurrentValue('Leads', oldWebLeads);
+        }
+        if (!webLeads.isEmpty()) {
+            TargetController.incrementCurrentValue('Leads', webLeads);
         }
     }
 }
