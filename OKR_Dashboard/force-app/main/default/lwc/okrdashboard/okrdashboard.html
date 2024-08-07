@@ -33,7 +33,7 @@
                                     <ul>
                                         <template for:each={keyResult.targets} for:item="target">
                                             <li key={target.objectType}>
-                                                {target.objectType} {target.currentScore}/{target.targetScore}
+                                                {target.objectType} {target.currentValue}/{target.targetValue}
                                             </li>
                                         </template>
                                     </ul>
@@ -211,9 +211,9 @@
 
                         <lightning-input
                             type="number"
-                            label="Target Score"
-                            value={targetScore}
-                            onchange={handleTargetScoreChange}>
+                            label="Target Value"
+                            value={targetValue}
+                            onchange={handleTargetValueChange}>
                         </lightning-input>
                     </div>
                     <footer class="slds-modal__footer">

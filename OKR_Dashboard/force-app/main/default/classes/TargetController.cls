@@ -24,7 +24,7 @@ public with sharing class TargetController {
     }
 
     private static void processValueChange(String targetType, List<SObject> records, Integer changeFactor) {
-        Map<Id, Integer> keyResultScoreMap = new Map<Id, Integer>();
+        Map<Id, Integer> keyResultValueMap = new Map<Id, Integer>();
         Map<Id, String> keyResultTypeMap = new Map<Id, String>();
 
         for (SObject record : records) {
@@ -32,18 +32,18 @@ public with sharing class TargetController {
             String additionalOption = getAdditionalOption(targetType, record);
 
             if (keyResultId != null) {
-                if (!keyResultScoreMap.containsKey(keyResultId)) {
-                    keyResultScoreMap.put(keyResultId, 0);
+                if (!keyResultValueMap.containsKey(keyResultId)) {
+                    keyResultValueMap.put(keyResultId, 0);
                 }
-                keyResultScoreMap.put(keyResultId, keyResultScoreMap.get(keyResultId) + changeFactor);
+                keyResultValueMap.put(keyResultId, keyResultValueMap.get(keyResultId) + changeFactor);
                 keyResultTypeMap.put(keyResultId, additionalOption);
             }
         }
 
-        List<Target__c> targetScoresToUpdate = new List<Target__c>();
-        for (Id keyResultId : keyResultScoreMap.keySet()) {
+        List<Target__c> targetValuesToUpdate = new List<Target__c>();
+        for (Id keyResultId : keyResultValueMap.keySet()) {
             String type = keyResultTypeMap.get(keyResultId);
-            List<Target__c> targetScores = [
+            List<Target__c> targetValues = [
                 SELECT Id, CurrentValue__c 
                 FROM Target__c 
                 WHERE KeyResult__c = :keyResultId 
@@ -51,14 +51,14 @@ public with sharing class TargetController {
                 AND (Subtype__c = :type OR Subtype__c = null)
             ];
 
-            for (Target__c targetScore : targetScores) {
-                targetScore.CurrentValue__c += keyResultScoreMap.get(keyResultId);
-                targetScoresToUpdate.add(targetScore);
+            for (Target__c targetValue : targetValues) {
+                targetValue.CurrentValue__c += keyResultValueMap.get(keyResultId);
+                targetValuesToUpdate.add(targetValue);
             }
         }
 
-        if (!targetScoresToUpdate.isEmpty()) {
-                update targetScoresToUpdate;
+        if (!targetValuesToUpdate.isEmpty()) {
+                update targetValuesToUpdate;
            
         }
     }

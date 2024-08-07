@@ -40,7 +40,7 @@ export default class Okrdashboard extends LightningElement {
         { label: 'Contract', value: 'Contract' }
     ];
     @track selectedTargets = [];
-    @track targetScore;
+    @track targetValue;
     @track isNewTargetModalOpen = false;
     @track currentKeyResultId;
     @track additionalOptions = [];
@@ -290,7 +290,7 @@ export default class Okrdashboard extends LightningElement {
     handleCloseNewTargetModal() {
         this.isNewTargetModalOpen = false;
         this.selectedTargets = [];
-        this.targetScore = null;
+        this.targetValue = null;
     }
 
     handleTargetSelection(event) {
@@ -298,8 +298,8 @@ export default class Okrdashboard extends LightningElement {
         this.updateAdditionalOptions();
     }
 
-    handleTargetScoreChange(event) {
-        this.targetScore = event.target.value;
+    handleTargetValueChange(event) {
+        this.targetValue = event.target.value;
     }
 
     updateAdditionalOptions() {
@@ -321,11 +321,11 @@ export default class Okrdashboard extends LightningElement {
         console.log('Attempting to save new target with data:', {
             keyResultId: this.currentKeyResultId,
             targets: this.selectedTargets,
-            targetScore: this.targetScore,
+            targetValue: this.targetValue,
             additionalOption: this.selectedAdditionalOption
         });
 
-        if (!this.selectedTargets.length || !this.targetScore) {
+        if (!this.selectedTargets.length || !this.targetValue) {
             this.showToast('Error', 'Please select at least one target and set a target value', 'error');
             return;
         }
@@ -333,13 +333,13 @@ export default class Okrdashboard extends LightningElement {
         saveNewTarget({
             keyResultId: this.currentKeyResultId,
             targets: this.selectedTargets,
-            targetScore: this.targetScore,
+            targetValue: this.targetValue,
             additionalOption: this.selectedAdditionalOption
         })
         .then(() => {
             this.showToast('Success', 'Target saved successfully', 'success');
             this.selectedTargets = [];
-            this.targetScore = null;
+            this.targetValue = null;
             return getKeyResultsWithTargets({ objectiveId: this.selectedObjectiveId });
         })
         .then(result => {

@@ -36,24 +36,24 @@ public with sharing class KeyResultController {
     }
 
     @AuraEnabled
-    public static void saveNewTarget(String keyResultId, List<String> targets, Integer targetScore, String additionalOption) {
-        List<Target__c> targetScores = new List<Target__c>();
+    public static void saveNewTarget(String keyResultId, List<String> targets, Integer targetValue, String additionalOption) {
+        List<Target__c> targetValues = new List<Target__c>();
 
         for (String target : targets) {
-            Target__c targetScoreRecord = new Target__c(
+            Target__c targetValueRecord = new Target__c(
                 KeyResult__c = keyResultId,
                 Type__c = target,
-                TargetValue__c = targetScore,
+                TargetValue__c = targetValue,
                 CurrentValue__c = 0,
                 Name = 'Target for ' + target
             );
             if (additionalOption != null && additionalOption != '') {
-                targetScoreRecord.Subtype__c = additionalOption;
+                targetValueRecord.Subtype__c = additionalOption;
             }
-            targetScores.add(targetScoreRecord);
+            targetValues.add(targetValueRecord);
         }
 
-        insert targetScores;
+        insert targetValues;
     }
 
     public class KeyResultWrapper {
@@ -70,14 +70,14 @@ public with sharing class KeyResultController {
 
     public class TargetWrapper {
         @AuraEnabled public String objectType { get; set; }
-        @AuraEnabled public Decimal currentScore { get; set; }
-        @AuraEnabled public Decimal targetScore { get; set; }
+        @AuraEnabled public Decimal currentValue { get; set; }
+        @AuraEnabled public Decimal targetValue { get; set; }
         @AuraEnabled public String additionalOption { get; set; }
 
         public TargetWrapper(Target__c target) {
             this.objectType = target.Type__c;
-            this.currentScore = target.CurrentValue__c;
-            this.targetScore = target.TargetValue__c;
+            this.currentValue = target.CurrentValue__c;
+            this.targetValue = target.TargetValue__c;
             this.additionalOption = target.Subtype__c;
         }
     }
